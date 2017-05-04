@@ -36,61 +36,79 @@ connection.query("SELECT * FROM products", function(error, result) {
 
 		console.log("===============================================================")
 
-		//calls the inquirer package!
-		questions();
+		questions(); //calls the inquirer prompts!
 	}
 });
 
+		
 function questions() {
-
 	inquirer.prompt([
 		{
 	        name: "productID",
 	        message: "Which product would you like to buy? Identify by the product ID number."
-	      }, {
+	    }, {
 	        name: "quantity",
 	        message: "How many units would you like to purchase of that item?"
 	      }
 
 		]).then(function (answers) {
 
-		connection.query("UPDATE products SET ? WHERE ?", [
-		{
-			(stock_quantity - quantity)
-		},
-		{
-			item_id: answers.productID
-		}
-		], function(err, res) {
-		if (err) {
-			console.log('err')
-			console.log(err)
-		}
-		else {
-			console.log('res')
-			console.log(res)
-		}
+		var productID = answers.productID;
+		var quantity = answers.quantity;
+		
 
+		connection.query("SELECT * FROM products", function(error, result) {
+			if (error) {
+				throw error;
+			} else {
+				if (result.stock_quantity > answers.quantity) {
+					console.log("Your Order is On It's Way!")
+				}
+				else {
+					console.log("Insufficient Quantity!")
+				}
+			}
+		})
 
-		// console.log(answers.productID)
+		// connection.query("UPDATE products SET ? WHERE ?", [
+		// {
+		// 	purchases : quantity
+		// },
+		// {
+		// 	item_id : productID
+		// }
+		// ],
+		//  function(err, res) {
+		// if (err) {
+		// 	throw(err)
+		// 	connection.end();
+			
+		// }
+		// else {
+		// 	console.log('res')
+		// 	console.log(res)
+		// }
+		// }) // ends the first query
 
-	})
+		// connection.query("SELECT SUM (")
 
+		// connection.query("SELECT stock_quantity, purchases FROM products WHERE ?", [
+		// 	{
+		// 		item_id : productID
+		// 	}
 
+		// 	] );
+
+  		}) //ends the THEN function
+
+  		
 }
 
 
-
-
+// connection.end();
 
     
 // });
 // });
     
 
-
-
-
-
-
-connection.end();
