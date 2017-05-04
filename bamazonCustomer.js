@@ -28,15 +28,20 @@ connection.query("SELECT * FROM products", function(error, result) {
 		console.log("----------------------- ITEMS FOR SALE ------------------------")
 		console.log("")
 
-		for (var i = 0; i < result.length; i++) {
+			for (var i = 0; i < result.length; i++) {
 
-			console.log(result[i].item_id + ". " +result[i].department_name + " | " + result[i].product_name + " ((" + "$ " + result[i].price + "))")
-			console.log("")
+				console.log(result[i].item_id + ". " +result[i].department_name + " | " + result[i].product_name + " ((" + "$ " + result[i].price + "))")
+				console.log("")
+			}
 
-		}
 		console.log("===============================================================")
-		// console.log(result)
-	
+
+		//calls the inquirer package!
+		questions();
+	}
+});
+
+function questions() {
 
 	inquirer.prompt([
 		{
@@ -48,10 +53,44 @@ connection.query("SELECT * FROM products", function(error, result) {
 	      }
 
 		]).then(function (answers) {
-	    // Use user feedback for... whatever!! 
-	});
 
-    }
-});
+		connection.query("UPDATE products SET ? WHERE ?", [
+		{
+			(stock_quantity - quantity)
+		},
+		{
+			item_id: answers.productID
+		}
+		], function(err, res) {
+		if (err) {
+			console.log('err')
+			console.log(err)
+		}
+		else {
+			console.log('res')
+			console.log(res)
+		}
+
+
+		// console.log(answers.productID)
+
+	})
+
+
+}
+
+
+
+
+
+    
+// });
+// });
+    
+
+
+
+
+
 
 connection.end();
