@@ -36,15 +36,22 @@ connection.query("SELECT * FROM products", function(error, result) {
 		}
 		console.log("===============================================================")
 		// console.log(result)
-	}
+	
+
+	inquirer.prompt([
+		{
+	        name: "productID",
+	        message: "Which product would you like to buy? Identify by the product ID number."
+	      }, {
+	        name: "quantity",
+	        message: "How many units would you like to purchase of that item?"
+	      }
+
+		]).then(function (answers) {
+	    // Use user feedback for... whatever!! 
+	});
+
+    }
 });
-
-
-inquirer.prompt([/* Pass your questions in here */
-
-	]).then(function (answers) {
-    // Use user feedback for... whatever!! 
-});
-
 
 connection.end();
